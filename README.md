@@ -87,3 +87,59 @@ Now, you can access the RiteMatch at [http://localhost:8000/](http://localhost:8
 - **Admin Interface:**
   - **Endpoint:** `/admin/`
   - **Description:** Access the Django admin interface for adding/removing superusers.
+
+ ### Step 1: Clone the repository
+
+```bash
+git clone <repository-url>
+cd <project-directory>/frontend
+```
+
+### **Setup Frontend**
+1. **Navigate to Frontend Directory:**
+   ```bash
+   cd frontend
+   ```
+   
+2. **Install necessary packages:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm start
+   ```
+The above command will start the development server. Open your browser and visit http://localhost:3000 to access the React app.
+
+## Deployment
+
+1. **Build the project:**
+   ```bash
+   npm run build
+   ```
+This command will create a build directory with the production-ready files.
+
+2. **Install Firebase CLI (if not already installed):**
+   ```bash
+   npm install -g firebase-tools
+   ```
+3. **Login to Firebase:**
+   ```bash
+   firebase login
+   ```
+Follow the prompts to authenticate and log in.
+
+4. **Initialize Firebase:**
+   ```bash
+   firebase init
+   ```
+Follow the prompts and select the hosting option. Configure the project by choosing the build directory as the public directory.
+
+5. **Deploy to Firebase:**
+   ```bash
+   firebase deploy
+   ```
+Firebase will provide you with a hosting URL where your React app is now deployed.
+
+The app is now ready for deployment on Firebase hosting!
