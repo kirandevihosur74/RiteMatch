@@ -115,28 +115,33 @@ The above command will start the development server. Open your browser and visit
 ## Deployment
 
 1. **Build the project:**
+   
    ```bash
    npm run build
    ```
 This command will create a build directory with the production-ready files.
 
 2. **Install Firebase CLI (if not already installed):**
+   
    ```bash
    npm install -g firebase-tools
    ```
-3. **Login to Firebase:**
+4. **Login to Firebase:**
+   
    ```bash
    firebase login
    ```
 Follow the prompts to authenticate and log in.
 
 4. **Initialize Firebase:**
+   
    ```bash
    firebase init
    ```
 Follow the prompts and select the hosting option. Configure the project by choosing the build directory as the public directory.
 
 5. **Deploy to Firebase:**
+   
    ```bash
    firebase deploy
    ```
