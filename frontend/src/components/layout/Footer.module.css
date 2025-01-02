@@ -1,0 +1,28 @@
+.footer {
+  width: 100%;
+  height: 4rem;
+  background-color: #273746;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  z-index: 10;
+}
+
+.body{
+  font-family: 'Rubik', sans-serif;
+}
+
+.light {
+  background-color: #273746; /* Light mode color */
+  color: white; /* Adjust text color as needed */
+}
+
+.dark {
+  /* background-color: #333940; */
+  background-color: #1e1e1e;
+  /* background-color: #1B263B; */
+  color: white; /* Adjust text color as needed */
+}

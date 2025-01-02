@@ -1,0 +1,10 @@
+.light {
+    background-color: #ffffff;
+  color: #000000;
+    /* other light theme styles */
+}
+
+.dark {
+    background-color: #000000;
+  color: #ffffff;
+}

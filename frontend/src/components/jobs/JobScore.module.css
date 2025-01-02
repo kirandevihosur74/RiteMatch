@@ -1,0 +1,52 @@
+.JobScore-container {
+    text-align: center;
+    max-width: 25rem;
+    height: 20rem;
+    width: 100%;
+    margin: auto;
+    margin-top: 10rem;
+    margin-bottom: 4rem;
+    position: relative;
+    background-color: white;
+    color: white;
+    border-radius: 18px;
+    padding: 1rem;
+    box-shadow: 0 1px 18px 10px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Style for the Calculate Job Score button */
+  .JobScore-button {
+    text-transform: capitalize;
+  }
+  
+  /* Style for the circular progress */
+  .JobScore-circularProgress {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* Style for the job score displayed in the dialog */
+  .JobScore-dialogContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  /* Style for the circular score bar */
+  .JobScore-scoreBar {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  /* Style for the circular score text */
+  .JobScore-scoreText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+  }
+  

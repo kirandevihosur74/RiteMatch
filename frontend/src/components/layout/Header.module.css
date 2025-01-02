@@ -1,0 +1,41 @@
+.header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  background-color: #808b96;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.body{
+  font-family: 'Rubik', sans-serif;
+}
+
+.light {
+  background-color: #808b96; /* Light mode color */
+  color: white; /* Adjust text color as needed */
+}
+
+.dark {
+  /* background-color: #333940; */
+  background-color: #1e1e1e;
+  /* background-color: #1B263B; */
+  color: white; /* Adjust text color as needed */
+}
+
+
+.navLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navLinkActive {
+  text-decoration: underline;
+  /* Adjust additional active link styles as needed */
+}
+

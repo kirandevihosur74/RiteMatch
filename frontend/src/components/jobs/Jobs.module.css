@@ -1,0 +1,46 @@
+.jobcard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  margin: auto;
+  background-color: white;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.jobcard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+}
+
+.jobcard h6 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.jobcard p {
+  color: #666;
+}
+
+.light {
+  background-color: white;
+  color: black;
+}
+
+.dark {
+  background-color: #1E1E1E;
+  color: white;
+}
+
+.iconButton {
+  background-color: transparent;
+  color: #333; /* Change the color to your preferred color */
+  transition: color 0.3s ease-in-out;
+}
+
+.iconButton:hover {
+  color: #ff5722; /* Change the hover color to your preferred color */
+}

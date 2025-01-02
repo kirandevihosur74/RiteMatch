@@ -1,0 +1,8 @@
+Django~=5.0
+djangorestframework~=3.14.0
+pandas~=2.1.4
+scikit-learn~=1.3.2
+django
+django_countries
+django-cors-headers
+setuptools
