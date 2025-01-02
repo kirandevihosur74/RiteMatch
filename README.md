@@ -143,3 +143,7 @@ Follow the prompts and select the hosting option. Configure the project by choos
 Firebase will provide you with a hosting URL where your React app is now deployed.
 
 The app is now ready for deployment on Firebase hosting!
+
+---
+For any queries or contributions, please contact Kiran Devihosur at kirandevihosur74@gmail.com  
+Happy coding! 🎉
