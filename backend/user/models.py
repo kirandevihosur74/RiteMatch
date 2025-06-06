@@ -14,8 +14,20 @@ class UserProfile(models.Model):
     state = models.CharField(max_length=100)
     zip = models.CharField(max_length=20)
     cell = models.CharField(max_length=15)
+    skills = models.TextField(
+        blank=True,
+        help_text="Comma-separated list of user skills, e.g. 'python,django,react'"
+    )
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.username
+
+    def skill_list(self):
+        """
+        Return a list of lowercase skills extracted from the comma-separated string.
+        """
+        if not self.skills:
+            return []
+        return [s.strip().lower() for s in self.skills.split(",") if s.strip()]

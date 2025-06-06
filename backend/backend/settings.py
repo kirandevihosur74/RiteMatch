@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        # Other authentication classes if you use them
+    ],
+    # ... other settings
+}
 
 # Application definition
 
@@ -43,6 +51,9 @@ INSTALLED_APPS = [
     'django_countries',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
+    'ai_agent',
+    'tailorresume',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +72,10 @@ ROOT_URLCONF = 'backend.urls'
 
 CORS_ALLOWED_ORIGINS = [
     "https://ritematch-945d1.web.app",
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'authorization',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

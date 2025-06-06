@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,  include
-
+from rest_framework.authtoken import views as authtoken_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('jobs.urls')),
     path('user/', include('user.urls')),
     path('match/', include('matchScore.urls')),
+    path("api/ai-agent/", include("ai_agent.urls")),
+    path('api/token-auth/',  authtoken_views.obtain_auth_token),
+    path("api/tailor-resume/", include("tailorresume.urls")),
 ]
 
