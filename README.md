@@ -1,154 +1,144 @@
-# **Ritematch: Innovative Job Matching Portal**
+# Ritematch: AI-Powered Job Matching & Resume Tailoring Portal
 
-**Ritematch** is a full-stack application designed to intelligently match user skills with job requirements using NLP-based cosine similarity. The project includes a Django backend for data processing and APIs, and a React frontend for a seamless user interface.
-
-## **Features**
-- **Backend**:
-  - User authentication (signup/signin).
-  - Job retrieval and scoring via Rest APIs.
-  - Intelligent job matching using NLP cosine similarity.
-- **Frontend**:
-  - User-friendly interface for interacting with job listings.
-  - “Check My Job Score” feature to display personalized job matches.
-- **Deployment**:
-  - Backend hosted on a Django server.
-  - Frontend hosted using Firebase.
+**Ritematch** is a cutting-edge full-stack application that leverages AI and Natural Language Processing to intelligently match users with job opportunities, tailor resumes to specific job descriptions, and provide actionable career insights. Built with a Django backend and React frontend, Ritematch provides a seamless experience for job seekers and professionals alike.
 
 ---
 
-## **Installation Guide**
+## ✨ Features
 
-### **Clone the Repository**
+### 🤖 AI-Driven Functionality
+
+- **Smart Job Matching**: Uses NLP and cosine similarity to compute match scores between your resume and job descriptions.
+- **Resume Tailoring Assistant**: Tailor your resume to specific job descriptions using generative AI (Gemini/OpenAI).
+- **ATS Optimization**: Resume output is designed to work well with Applicant Tracking Systems.
+- **Professional Summary & Experience Rewriting**: Enhanced phrasing and keyword enrichment powered by LLM prompts.
+
+### 🚪 User Authentication
+
+- Secure Signup & Login
+- Token-based session management using Django Rest Framework (DRF)
+
+### 📂 Resume Utilities
+
+- Upload your resume in PDF/DOC/DOCX formats
+- Extract and display resume content
+- Preview both original and AI-tailored resumes side by side
+- Download tailored resume in **PDF** or **DOCX** formats
+
+### 📈 Job Tools
+
+- Fetch jobs from APIs and internal DB
+- Display job matches with match scores
+- Personalized job recommendations
+
+### 🛠️ Tech Stack
+
+- **Frontend**: React, Material UI, Tailwind CSS
+- **Backend**: Django, Django Rest Framework, Python
+- **AI Models**: Google Gemini / OpenAI GPT-4o
+- **Deployment**: Firebase (frontend), Django dev server (backend)
+
+---
+
+## 📅 Installation Guide
+
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/your-username/RiteMatch.git
 cd RiteMatch
 ```
 
-### **Setup Backend**
-1. **Navigate to Backend Directory:**
-   ```bash
-   cd backend
-   ```
-2. **Create Virtual Environment:**
-
-    ```bash
-    python -m venv venv
-    ```
-
-3. **Activate Virtual Environment:**
-
-    - *On Windows:*
-      ```bash
-      venv\Scripts\activate
-      ```
-    - *On Linux/macOS:*
-      ```bash
-      source venv/bin/activate
-      ```
-
-4. **Install Dependencies:**
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-5. **Apply Migrations:**
-
-    ```bash
-    python manage.py migrate
-    ```
-
-6. **Run the Server:**
-
-    ```bash
-    python manage.py runserver
-    ```
-
-Now, you can access the RiteMatch at [http://localhost:8000/](http://localhost:8000/) in your web browser.
-
-## Usage
-
-- **Job Retrieval API:**
-  - **Endpoint:** `/jobs/`
-  - **Description:** Retrieves available jobs from the portal.
-
-- **Job Score API:**
-  - **Endpoint:** `/match/skills/`
-  - **Description:** Provides a score for each job.
-    
-- **User Signup API:**
-  - **Endpoint:** `/user/signup/`
-  - **Description:** Handles user registration.
-
-- **User Signin API:**
-  - **Endpoint:** `/user/signin/`
-  - **Description:** Handles user login.
-
-- **Admin Interface:**
-  - **Endpoint:** `/admin/`
-  - **Description:** Access the Django admin interface for adding/removing superusers.
-
- ### Step 1: Clone the repository
+### 2. Setup Backend
 
 ```bash
-git clone <repository-url>
-cd <project-directory>/frontend
+cd backend
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
 ```
 
-### **Setup Frontend**
-1. **Navigate to Frontend Directory:**
-   ```bash
-   cd frontend
-   ```
-   
-2. **Install necessary packages:**
-   ```bash
-   npm install
-   ```
+Backend is now available at: [http://localhost:8000/](http://localhost:8000/)
 
-3. **Run the development server:**
-   ```bash
-   npm start
-   ```
-The above command will start the development server. Open your browser and visit http://localhost:3000 to access the React app.
+### 3. Setup Frontend
 
-## Deployment
+```bash
+cd ../frontend
+npm install
+npm start
+```
 
-1. **Build the project:**
-   
-   ```bash
-   npm run build
-   ```
-This command will create a build directory with the production-ready files.
-
-2. **Install Firebase CLI (if not already installed):**
-   
-   ```bash
-   npm install -g firebase-tools
-   ```
-4. **Login to Firebase:**
-   
-   ```bash
-   firebase login
-   ```
-Follow the prompts to authenticate and log in.
-
-4. **Initialize Firebase:**
-   
-   ```bash
-   firebase init
-   ```
-Follow the prompts and select the hosting option. Configure the project by choosing the build directory as the public directory.
-
-5. **Deploy to Firebase:**
-   
-   ```bash
-   firebase deploy
-   ```
-Firebase will provide you with a hosting URL where your React app is now deployed.
-
-The app is now ready for deployment on Firebase hosting!
+Frontend runs at: [http://localhost:3000/](http://localhost:3000/)
 
 ---
-For any queries or contributions, please contact Kiran Devihosur at kirandevihosur74@gmail.com  
-Happy coding! 🎉
+
+## 📚 Usage Guide
+
+### 📄 Resume Tailoring
+
+- Upload your resume
+- Paste a job description
+- Click **Tailor Resume**
+- View side-by-side previews and download as PDF/DOCX
+
+### 🔢 Job Matching
+
+- Paste your skills
+- Get a ranked list of jobs with cosine similarity scores
+
+---
+
+## 🛠️ API Endpoints
+
+| Endpoint               | Method | Description                               |
+| ---------------------- | ------ | ----------------------------------------- |
+| `/user/signup/`        | POST   | Register a new user                       |
+| `/user/signin/`        | POST   | Authenticate a user                       |
+| `/user/upload-resume/` | POST   | Upload and extract resume content         |
+| `/jobs/`               | GET    | Retrieve job listings                     |
+| `/match/skills/`       | POST   | Get job match scores                      |
+| `/api/tailor-resume/`  | POST   | Tailor resume to provided job description |
+
+---
+
+## 🚀 Deployment
+
+### Frontend (Firebase Hosting)
+
+```bash
+cd frontend
+npm run build
+npm install -g firebase-tools
+firebase login
+firebase init
+# Select "Hosting" and choose build/ as public directory
+firebase deploy
+```
+
+---
+
+## 📅 Project Structure
+
+```
+RiteMatch/
+├── backend/            # Django project
+│   ├── user/           # User auth & resume handling
+│   ├── tailorresume/   # AI resume tailoring logic
+│   └── ai_agent/       # AI-based job scoring
+├── frontend/           # React frontend UI
+└── README.md           # Project docs
+```
+
+---
+
+## 📊 Contributions & Contact
+
+For feedback, suggestions, or collaboration:
+
+**Kiran Devihosur**  
+Email: [kirandevihosur74@gmail.com](mailto:kirandevihosur74@gmail.com)  
+Portfolio: [My Portfolio](https://kirandevihosur.com/)
+
+Happy Building 🚀 and Good Luck Job Hunting! 💼
