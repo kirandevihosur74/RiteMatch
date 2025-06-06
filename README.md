@@ -60,8 +60,6 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-Backend is now available at: [http://localhost:8000/](http://localhost:8000/)
-
 ### 3. Setup Frontend
 
 ```bash
@@ -69,8 +67,6 @@ cd ../frontend
 npm install
 npm start
 ```
-
-Frontend runs at: [http://localhost:3000/](http://localhost:3000/)
 
 ---
 
