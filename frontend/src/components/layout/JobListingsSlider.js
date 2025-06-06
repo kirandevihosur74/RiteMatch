@@ -15,7 +15,7 @@ const JobListingsSlider = () => {
     dots: false,
     infinite: true,
     speed: 2000,
-    slidesToShow: 4,
+    slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
@@ -45,7 +45,7 @@ const JobListingsSlider = () => {
             <Grid item xs={12}>
               <Paper
                 sx={{
-                  height: "160px",
+                  height: "497px",
                   width: "100%",
                   boxShadow: "0 2px 8px rgba(0, 0, 0, 0.25)",
                   borderRadius: "18px",
@@ -54,7 +54,7 @@ const JobListingsSlider = () => {
                 }}
                 elevation={3}
               >
-                <Box padding={3}>
+                <Box padding={5}>
                   <Typography variant="h6">{job.title}</Typography>
                   <Typography variant="subtitle1">{job.company}</Typography>
                   <Typography variant="body2">{job.location}</Typography>

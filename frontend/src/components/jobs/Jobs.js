@@ -1,105 +1,75 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Paper,
   Typography,
   Grid,
+  Paper,
   CircularProgress,
   Pagination,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  IconButton,
-  Tooltip
 } from "@mui/material";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { useUser } from "../layout/UserContext";
 import { useTheme } from "../layout/ThemeContext";
-import { Close as CloseIcon } from "@mui/icons-material";
-import classes from "./Jobs.module.css";
-import {Link} from "react-router-dom";
+import "react-circular-progressbar/dist/styles.css";
+import CircularSpinner from "../layout/CircularSpinner";
 
 const Jobs = () => {
-  const [jobs, setJobs] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { matchedJobs, setMatchedJobs } = useUser();
+  const { theme } = useTheme();
   const [currentPage, setCurrentPage] = useState(1);
-  const [defaultPage, setDefaultPage] = useState(1);
-  const [selectedJob, setSelectedJob] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const jobsPerPage = 9;
 
-  const indexOfLastJob = currentPage * jobsPerPage;
-  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-  const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
-
-  const { theme } = useTheme();
-
-  console.log("Current theme:", theme);
-
-  const themeStyle = theme === "light" ? classes.light : classes.dark;
-
-  console.log("ThemeStyle:", themeStyle);
-
-  const handleJobClick = (job) => {
-    setSelectedJob(job);
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
   useEffect(() => {
-    // const savedPage = localStorage.getItem("jobsPage");
-    // if (savedPage) {
-    //   setCurrentPage(parseInt(savedPage)); // Set the current page from local storage
-    // } else {
-    //   // If no page is saved, set it to the defaultPage
-    //   setCurrentPage(defaultPage);
-    // }
-    setCurrentPage(defaultPage);
-    setIsLoading(true);
-    let timeoutId = null;
+    const fetchJobs = async () => {
+      const token = localStorage.getItem("token");
 
-    const fetchData = async () => {
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        const response = await fetch("http://127.0.0.1:8000/jobs/");
-        if (response.ok) {
-          const data = await response.json();
-          // Wait for the remainder of the 5 seconds before setting the state
-          timeoutId = setTimeout(() => {
-            setJobs(data);
-            setIsLoading(false);
-          }, Math.max(0, 500 - (Date.now() - startTime)));
-        } else {
-          throw new Error("Network response was not ok");
-        }
+        const res = await fetch("http://127.0.0.1:8000/api/ai-agent/", {
+          method: "POST",
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            intro: "Here are my skills. Recommend jobs accordingly.",
+          }),
+        });
+
+        const data = await res.json();
+        const sorted = [...data].sort(
+          (a, b) =>
+            (b.job?.eligibility_percentage || 0) -
+            (a.job?.eligibility_percentage || 0)
+        );
+
+        setMatchedJobs(sorted);
+        localStorage.setItem("matchedJobs", JSON.stringify(sorted));
       } catch (error) {
-        setError(error);
-        setIsLoading(false); // You might want to keep it false in case of error
+        console.error("Failed to fetch AI jobs:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    const startTime = Date.now();
-    fetchData();
+    fetchJobs();
+  }, [setMatchedJobs]);
 
-    // Cleanup function to clear timeout if component unmounts
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, [defaultPage]);
+  const indexOfLastJob = currentPage * jobsPerPage;
+  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+  const currentJobs = matchedJobs.slice(indexOfFirstJob, indexOfLastJob);
 
-  //   const handleJobClick = (jobUrl) => {
-  //     // Save the current state to local storage
-  //     localStorage.setItem('jobsPage', currentPage.toString());
-  //     window.open(jobUrl, '_blank');
-  //   };
-
-  if (error) {
-    return <p>Error loading jobs: {error.message}</p>;
-  }
+  const progressBarStyles = buildStyles({
+    pathColor: theme === "light" ? "#4CAF50" : "#03DAC5",
+    textColor: theme === "light" ? "#4CAF50" : "#03DAC5",
+    trailColor: "#d6d6d6",
+    strokeWidth: 8,
+  });
 
   if (isLoading) {
     return (
@@ -107,179 +77,120 @@ const Jobs = () => {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        minHeight="50vh"
+        minHeight="100vh"
       >
-        <CircularProgress />
+        {" "}
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <CircularSpinner />
+
+          {/* GIFs below the spinner */}
+          <img
+            src="http://media.giphy.com/media/C0KhKrQD3sITe/giphy.gif"
+            alt="funny gif"
+            width="400"
+          />
+        </Box>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ padding: 18 }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6" marginBottom={3} sx={{
-          color: theme === "light" ? "#273746;" : "#03DAC5",
-        }}>
-          Job Listings
-        </Typography>
-        <Typography variant="h6" marginBottom={3}>
-        <Tooltip title="Check your Job Score" placement="top" arrow>
-          <Button
-          component={Link}
-          to="/jobscore"
-            sx={{
-              textTransform: "capitalize",
-              borderRadius: "10px",
-              fontSize: "18px",
-              color: theme === "light" ? "#273746;" : "#03DAC5",
-              "&:hover": {
-                backgroundColor: theme === "light" ? "#808B96" : "#00C7B3",
-                color: theme === "light" ? "white" : "#1E1E1E",
-              },
-              // backgroundColor: theme === "light" ? "#808B96" : "#03DAC5",
-            }}
-          >
-            Job Score
-          </Button>
-          </Tooltip>
-        </Typography>
-      </div>
-      <Grid container spacing={3}>
-        {currentJobs.map((job) => (
-          <Grid item xs={12} sm={6} md={4} key={job.id}>
-            <Paper
-              sx={{
-                height: "160px",
-                width: "100%",
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.25)",
-                borderRadius: "18px",
-                transition:
-                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  boxShadow: "0 5px 12px rgba(0,0,0,0.2)",
-                },
-                backgroundColor: theme === "light" ? "#808b96" : "#1E1E1E",
-                color: theme === "light" ? "white" : "#03DAC5",
-              }}
-              elevation={3}
-              onClick={() => handleJobClick(job)}
-              style={{ cursor: "pointer" }}
-            >
-              <Box padding={2}>
-                <Typography variant="h6">{job.title}</Typography>
-                <Typography variant="subtitle1">{job.company}</Typography>
-                <Typography variant="body2">{job.location}</Typography>
-              </Box>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        marginTop={2}
+    <Box
+      sx={{
+        px: { xs: 2, sm: 4, md: 8 },
+        py: { xs: 3, sm: 5, md: 6 },
+        mt: 2,
+      }}
+    >
+      <Typography
+        variant="h5"
+        sx={{
+          textAlign: "center",
+          fontWeight: 600,
+          mb: 5,
+          color: theme === "light" ? "#273746" : "#03DAC5",
+        }}
       >
-        <Pagination
-          sx={{
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.25)",
-            borderRadius: "18px",
-            backgroundColor: theme === "light" ? "#808b96" : "#1E1E1E",
-            color: theme === "light" ? "white" : "#03DAC5",
-            "& .MuiPaginationItem-root": {
-              color: theme === "light" ? "white" : "#03DAC5",
+       🔍 Top Job Matches Based on Your Skills
+      </Typography>
 
-              // Specific style for the active page number
-              "&.Mui-selected": {
-                color: theme === "light" ? "black" : "white",
-              },
-            },
-          }}
-          className={themeStyle}
-          count={Math.ceil(jobs.length / jobsPerPage)}
+      <Grid container spacing={6}>
+        {currentJobs.map((item, index) => {
+          const job = item.job || item;
+
+          return (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Paper
+                sx={{
+                  p: 1.5,
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  borderRadius: "16px",
+                  backgroundColor: theme === "light" ? "#f2f4f8" : "#2a2a2a",
+                  boxShadow: "0px 6px 20px rgba(0,0,0,0.08)",
+                  transition: "all 0.3s ease-in-out",
+                  "&:hover": {
+                    transform: "translateY(-5px)",
+                    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
+                  },
+                }}
+              >
+                <Box>
+                  <Typography variant="h6" fontWeight={600} mb={1}>
+                    {job.title}
+                  </Typography>
+                  <Typography variant="subtitle1" mb={0.5}>
+                    {job.company}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {job.location}
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    mt: 3,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <a
+                    href={job.jobUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: theme === "light" ? "#3f51b5" : "#03DAC5",
+                      textDecoration: "underline",
+                      fontWeight: 500,
+                    }}
+                  >
+                    View Job
+                  </a>
+                  <Box sx={{ height: 50, width: 50 }}>
+                    <CircularProgressbar
+                      value={job.eligibility_percentage || 75}
+                      text={`${job.eligibility_percentage || 75}%`}
+                      styles={progressBarStyles}
+                    />
+                  </Box>
+                </Box>
+              </Paper>
+            </Grid>
+          );
+        })}
+      </Grid>
+
+      <Box display="flex" justifyContent="center" mt={5}>
+        <Pagination
+          count={Math.ceil(matchedJobs.length / jobsPerPage)}
           page={currentPage}
-          onChange={(event, value) => {
-            setCurrentPage(value);
-            localStorage.setItem("jobsPage", value.toString());
-          }}
+          onChange={(event, value) => setCurrentPage(value)}
           color="primary"
         />
       </Box>
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="job-description-dialog"
-        sx={{
-          borderRadius: "20px", // Set the desired border radius
-        }}
-      >
-        <DialogTitle
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "Raleway, sans-serif",
-            fontWeight: "900",
-            backgroundColor: theme === "light" ? "#808b96" : "#1E1E1E",
-            color: theme === "light" ? "white" : "#03DAC5",
-          }}
-        >
-          {selectedJob?.title}
-          <IconButton
-            className={classes.iconButton}
-            edge="end"
-            color="inherit"
-            onClick={handleCloseDialog}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-
-        <DialogContent
-          sx={{
-            backgroundColor: theme === "light" ? "#808b96" : "#1E1E1E",
-            color: theme === "light" ? "white" : "#03DAC5",
-          }}
-        >
-          <h3 style={{ marginTop: "-4px", fontWeight: "500" }}>
-            {selectedJob?.company}
-          </h3>
-          <h5 style={{ marginTop: "-10px", fontWeight: "200" }}>
-            {selectedJob?.location}
-          </h5>
-          <h4 style={{ fontWeight: "550" }}>About the Job </h4>
-          <DialogContentText
-            sx={{
-              backgroundColor: theme === "light" ? "#808b96" : "#1E1E1E",
-              color: theme === "light" ? "white" : "#03DAC5",
-            }}
-          >
-            <p style={{ textAlign: "justify" }}>{selectedJob?.description}</p>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions
-          sx={{
-            backgroundColor: theme === "light" ? "#808b96" : "#1E1E1E",
-            color: theme === "light" ? "white" : "#03DAC5",
-          }}
-        >
-          <Button
-            sx={{
-              borderRadius: "10px",
-              color: theme === "light" ? "white" : "#03DAC5",
-              "&:hover": {
-                backgroundColor: theme === "light" ? "#1976D2" : "#00C7B3",
-                color: theme === "light" ? "white" : "#1E1E1E",
-              },
-              // backgroundColor: theme === "light" ? "#808B96" : "#03DAC5",
-            }}
-            onClick={() => window.open(selectedJob?.jobUrl, "_blank")}
-          >
-            Visit Job
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 };

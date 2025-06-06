@@ -1,61 +1,79 @@
 import React from "react";
-import styles from "./Footer.module.css";
-import { Box, Typography, Grid, Link,IconButton, Container } from "@mui/material";
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { Box, Typography, Grid, Link, IconButton, Container } from "@mui/material";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { useTheme } from "../layout/ThemeContext";
+import styles from "./Footer.module.css";
 
-
-const Footer = (props) => {
-  const { theme} = useTheme();
+const Footer = () => {
+  const { theme } = useTheme();
   const currentYear = new Date().getFullYear();
-
   const footerClass = `${styles.footer} ${theme === "light" ? styles.light : styles.dark}`;
 
   return (
-    <Box
-      className={footerClass}
-    >
+    <Box className={footerClass}>
       <Container maxWidth="lg">
-        <Grid container direction="column" alignItems="center">
-          <Grid item>
-          <Link href="#" sx={{ mx: 2, color: theme === "light" ? "white" : "#03DAC5"  }}>
-            About Us
-          </Link>
-          <Link href="#" sx={{ mx: 2, color: theme === "light" ? "white" : "#03DAC5"  }}>
-            Contact Us
-          </Link>
-          <Link href="#" sx={{ mx: 2, color: theme === "light" ? "white" : "#03DAC5"  }}>
-            Support
-          </Link>
-          <Link href="#" sx={{ mx: 2, color: theme === "light" ? "white" : "#03DAC5"  }}>
-            Careers
-          </Link>
-        </Grid>
-        <Grid item xs={12}> 
-          <IconButton sx={{ color: theme === "light" ? "white" : "#03DAC5" }} href="https://facebook.com">
-            <FacebookIcon />
-          </IconButton>
-          <IconButton sx={{ color: theme === "light" ? "white" : "#03DAC5" }} href="https://twitter.com">
-            <TwitterIcon />
-          </IconButton>
-          <IconButton sx={{ color: theme === "light" ? "white" : "#03DAC5" }} href="https://instagram.com">
-            <InstagramIcon />
-          </IconButton>
-          <IconButton sx={{ color: theme === "light" ? "white" : "#03DAC5" }} href="https://linkedin.com">
-            <LinkedInIcon />
-          </IconButton>
-        </Grid>
-        <Grid item>
-          <Typography
-            variant="body2"
-            sx={{ display: { xs: "none", sm: "block"}, color: theme === "light" ? "white" : "#03DAC5" }}
-          >
-            Copyright © {currentYear} RiteMatch. All rights reserved.
-          </Typography>
-        </Grid>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ textAlign: { xs: "center", sm: "left" } }}
+        >
+          {/* Links Column */}
+          <Grid item xs={12} sm={4}>
+            <Box>
+              <Link href="#" underline="hover" sx={{ display: "block", mb: 0.5, color: "inherit" }}>
+                About Us
+              </Link>
+              <Link href="#" underline="hover" sx={{ display: "block", mb: 0.5, color: "inherit" }}>
+                Contact Us
+              </Link>
+            </Box>
+          </Grid>
+
+          {/* Links Column */}
+          <Grid item xs={12} sm={4}>
+            <Box>
+              <Link href="#" underline="hover" sx={{ display: "block", mb: 0.5, color: "inherit" }}>
+                Support
+              </Link>
+              <Link href="#" underline="hover" sx={{ display: "block", mb: 0.5, color: "inherit" }}>
+                Careers
+              </Link>
+            </Box>
+          </Grid>
+
+          {/* Social Media Icons */}
+          <Grid item xs={12} sm={4}>
+            <Box display="flex" justifyContent={{ xs: "center", sm: "flex-end" }} gap={1}>
+              <IconButton href="https://facebook.com" sx={{ color: "inherit" }}>
+                <FacebookIcon />
+              </IconButton>
+              <IconButton href="https://twitter.com" sx={{ color: "inherit" }}>
+                <TwitterIcon />
+              </IconButton>
+              <IconButton href="https://instagram.com" sx={{ color: "inherit" }}>
+                <InstagramIcon />
+              </IconButton>
+              <IconButton href="https://linkedin.com" sx={{ color: "inherit" }}>
+                <LinkedInIcon />
+              </IconButton>
+            </Box>
+          </Grid>
+
+          {/* Copyright */}
+          <Grid item xs={12}>
+            <Typography
+              variant="body2"
+              align="center"
+              sx={{ mt: 2, color: "inherit" }}
+            >
+              © {currentYear} RiteMatch. All rights reserved.
+            </Typography>
+          </Grid>
         </Grid>
       </Container>
     </Box>
@@ -63,4 +81,3 @@ const Footer = (props) => {
 };
 
 export default Footer;
-

@@ -1,41 +1,101 @@
-.header{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5rem;
-  background-color: #808b96;
-  color: white;
+/* Header.module.css */
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  padding: 0 1rem;
+  z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
-.body{
-  font-family: 'Rubik', sans-serif;
+
+.leftSection,
+.navSection,
+.rightSection {
+  display: flex;
+  align-items: center;
+}
+
+.leftSection {
+  flex: 1;
+}
+
+.navSection {
+  flex: 2;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.rightSection {
+  flex: 1;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.logo {
+  height: 50px;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.navLink {
+  font-size: 16px;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
+
+.iconBtn {
+  min-width: 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  padding: 0;
+  background-color: transparent;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.iconBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .light {
-  background-color: #808b96; /* Light mode color */
-  color: white; /* Adjust text color as needed */
+  background-color: #808b96;
+  color: white;
 }
 
 .dark {
-  /* background-color: #333940; */
   background-color: #1e1e1e;
-  /* background-color: #1B263B; */
-  color: white; /* Adjust text color as needed */
+  color: white;
 }
 
+@media (max-width: 768px) {
+  .navSection {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.5rem;
+  }
 
-.navLink {
-  text-decoration: none;
-  color: inherit;
+  .rightSection {
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 0.5rem;
+  }
 }
-
-.navLinkActive {
-  text-decoration: underline;
-  /* Adjust additional active link styles as needed */
-}
-
